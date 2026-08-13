@@ -1,0 +1,27 @@
+# Python & Environment
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.venv/
+env/
+ENV/
+
+# Large Data & Vector Matrices (Raw IMDB TSV files & Precomputed Embeddings >100MB)
+data/raw/
+data/interim/
+*.npy
+*.npz
+*.joblib
+*.tsv
+
+# IDE & OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node Modules
+node_modules/
+npm-debug.log*
