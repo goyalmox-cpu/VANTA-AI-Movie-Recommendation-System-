@@ -16,6 +16,12 @@ data/interim/
 *.joblib
 *.tsv
 
+# Agent & System Internal Files
+.agents/
+.system_generated/
+scratch/
+*.log
+
 # IDE & OS Files
 .vscode/
 .idea/
