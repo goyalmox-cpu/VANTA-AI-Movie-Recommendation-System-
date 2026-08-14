@@ -1,0 +1,1 @@
+"""VANTA FastAPI application package."""
