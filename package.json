@@ -1,0 +1,21 @@
+{
+  "name": "vanta",
+  "version": "1.0.0",
+  "description": "VANTA — Cinematic AI Recommendation Platform",
+  "main": "frontend/server.js",
+  "scripts": {
+    "start": "node frontend/server.js",
+    "dev": "node frontend/server.js",
+    "backend": "python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload"
+  },
+  "keywords": [
+    "movie-recommendation",
+    "fastapi",
+    "data-science",
+    "machine-learning",
+    "vector-search",
+    "glassmorphism"
+  ],
+  "author": "Sarthak Maurya (Arceaus)",
+  "license": "MIT"
+}

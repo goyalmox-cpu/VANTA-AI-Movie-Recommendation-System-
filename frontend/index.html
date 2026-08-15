@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="VANTA — cinematic movie recommendations, guided by taste." />
+    <title>VANTA — Guided by taste</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="entrance" id="entrance" aria-hidden="true">
+      <div class="entrance-mark" id="entrance-mark">
+        <span>V</span><span>A</span><span>N</span><span>T</span><span>A</span>
+      </div>
+      <p class="entrance-tagline">Powered by AI. Guided by taste.</p>
+    </div>
+
+    <main>
+      <div class="hero-backdrop" aria-hidden="true">
+        <div class="backdrop-slide backdrop-slide--one"></div>
+        <div class="backdrop-slide backdrop-slide--two"></div>
+        <div class="backdrop-overlay"></div>
+        <div class="glow glow--left"></div>
+        <div class="glow glow--right"></div>
+      </div>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="wordmark" href="#top" aria-label="Vanta home">VANTA</a>
+        <div class="nav-links">
+          <a class="nav-link" href="discover.html?movie=Inception">Discover <span aria-hidden="true">↗</span></a>
+          <a class="nav-link" href="watchlist.html">Watchlist <span class="nav-badge" id="nav-watchlist-count">0</span></a>
+        </div>
+      </nav>
+
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <p class="eyebrow">A more considered way to watch</p>
+        <h1 id="hero-title"><span>Powered by AI.</span><span>Guided by taste.</span></h1>
+        <p class="hero-copy">Tell VANTA one film you loved. We’ll follow its atmosphere, not just its genre.</p>
+
+        <form class="search-form" id="recommend-form" role="search">
+          <label class="sr-only" for="movie">A film you loved</label>
+          <div class="search-field">
+            <input id="movie" name="movie" type="search" autocomplete="off" placeholder="Name a film you loved…" required aria-autocomplete="list" aria-controls="movie-suggestions" aria-expanded="false" />
+            <ul class="movie-suggestions" id="movie-suggestions" role="listbox"></ul>
+          </div>
+          <button type="submit">Discover <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="form-status" id="form-status" role="status"></p>
+
+        <!-- Explore the Library section -->
+        <div class="film-chain" id="taste-notes" aria-label="Films in the VANTA library">
+          <p class="chain-label">Explore the library</p>
+          <div class="chain-viewport">
+            <div class="film-chain-track" role="list">
+              <button type="button" data-film="Inception" role="listitem">Inception</button>
+              <button type="button" data-film="Interstellar" role="listitem">Interstellar</button>
+              <button type="button" data-film="Arrival" role="listitem">Arrival</button>
+              <button type="button" data-film="The Matrix" role="listitem">The Matrix</button>
+              <button type="button" data-film="The Dark Knight" role="listitem">The Dark Knight</button>
+              <button type="button" data-film="Whiplash" role="listitem">Whiplash</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trending Now section -->
+        <div class="trending-section" aria-label="Trending movies">
+          <div class="trending-header">
+            <span class="trending-badge">TRENDING NOW</span>
+            <p class="trending-subtitle">ATMOSPHERIC CURATIONS</p>
+          </div>
+          <div class="trending-viewport">
+            <div class="trending-track" id="trending-track" role="list">
+              <!-- Dynamically populated floating movie cards -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results" id="discover" aria-live="polite" aria-label="Your recommendations">
+        <div class="results-heading">
+          <p class="eyebrow">Your next watch</p>
+          <h2>Selected for you.</h2>
+        </div>
+        <ol class="recommendation-list" id="recommendation-list"></ol>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-brand">
+          <a class="wordmark" href="#top">VANTA</a>
+          <p>A more considered way to watch. Powered by AI intelligence, guided by visual atmosphere and narrative tone.</p>
+        </div>
+
+        <!-- Navigation Column -->
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="discover.html?movie=Inception">Discover</a></li>
+            <li><a href="watchlist.html">Watchlist Vault</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal Column -->
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Licensing</a></li>
+          </ul>
+        </div>
+
+        <!-- Socials Column -->
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://www.linkedin.com/in/sarthak-maurya-59b82a366" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            <li><a href="https://github.com/Arceaus" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          © 2026 VANTA Inc. All rights reserved.
+        </div>
+        <div class="footer-closing">
+          <span>Discover something worth watching.</span>
+          <span class="footer-closing-badge">VANTA AI</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
