@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VANTA — Movie Details & Atmospheric Recommendations" />
+  <title>Movie Details — VANTA</title>
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Tailwind Theme Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#121414",
+            "on-background": "#e2e2e2",
+            "surface": "#121414",
+            "surface-container": "#1e2020",
+            "surface-container-low": "#1a1c1c",
+            "surface-container-high": "#282a2b",
+            "surface-container-highest": "#333535",
+            "surface-container-lowest": "#0c0f0f",
+            "on-surface": "#e2e2e2",
+            "on-surface-variant": "#cfc4c5",
+            "primary": "#c6c6c6",
+            "secondary": "#7cd0ff",
+            "outline": "#988e90",
+            "outline-variant": "#4c4546"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "display": ["Sora", "Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Geist", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes drop-in {
+      0% {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cinematic-stagger > * {
+      opacity: 0;
+      animation: drop-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .cinematic-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+    .cinematic-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+    .cinematic-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+    .cinematic-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+
+    .hero-gradient {
+      background: linear-gradient(to top, #121414 0%, rgba(18, 20, 20, 0.6) 50%, transparent 100%);
+    }
+
+    .glow-banner {
+      background: radial-gradient(ellipse at center, rgba(124, 208, 255, 0.12) 0%, rgba(18, 20, 20, 0.95) 75%);
+      border: 1px solid rgba(124, 208, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body overflow-x-hidden">
+  <!-- Top Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/10 px-6 md:px-16 py-5 flex justify-between items-center transition-all duration-300">
+    <button id="back-btn" class="flex items-center gap-2 text-on-surface hover:text-white transition-colors group">
+      <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+      <span class="font-medium text-sm">Back</span>
+    </button>
+    <a href="index.html" class="font-display font-bold text-2xl tracking-tighter text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+      VANTA
+    </a>
+    <div class="w-16"></div>
+  </nav>
+
+  <!-- Main Canvas -->
+  <main class="relative pb-24">
+    <!-- Loading State -->
+    <div id="loading-state" class="pt-40 pb-20 text-center flex flex-col items-center justify-center gap-4">
+      <div class="w-8 h-8 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-on-surface-variant font-label tracking-wider">RETRIEVING ATMOSPHERIC METADATA...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden pt-40 pb-20 text-center max-w-md mx-auto">
+      <span class="material-symbols-outlined text-4xl text-amber-400 mb-3">error_outline</span>
+      <h3 class="font-display text-xl font-semibold text-white mb-2">Film Not Found</h3>
+      <p id="error-message" class="text-sm text-on-surface-variant mb-6"></p>
+      <a href="index.html" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-background font-medium text-sm hover:bg-secondary transition-colors">
+        Return to Search
+      </a>
+    </div>
+
+    <!-- Details Wrapper -->
+    <div id="details-content" class="hidden">
+      <!-- Hero Poster Section -->
+      <div class="relative w-full h-[60vh] md:h-[75vh] overflow-hidden">
+        <div id="hero-bg" class="absolute inset-0 bg-cover bg-center w-full h-full scale-105 transform origin-center transition-transform duration-1000 ease-out border-b border-white/5"></div>
+        <div class="absolute inset-0 hero-gradient"></div>
+        <!-- AI Ambient Glow -->
+        <div class="absolute bottom-0 left-1/4 w-1/2 h-64 bg-secondary/10 blur-[100px] rounded-full mix-blend-screen pointer-events-none"></div>
+      </div>
+
+      <!-- Details Container -->
+      <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-16 -mt-[120px] cinematic-stagger">
+        <!-- Metadata Pills -->
+        <div id="metadata-pills" class="flex flex-wrap items-center gap-3 mb-4"></div>
+
+        <!-- Title -->
+        <h1 id="movie-title" class="font-display text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight drop-shadow-lg"></h1>
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <!-- Left Column: Overview, Actions, AI Mood -->
+          <div class="md:col-span-7 flex flex-col gap-6">
+            <p id="movie-overview" class="text-base md:text-lg text-on-surface-variant leading-relaxed"></p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a id="trailer-btn" href="#" target="_blank" rel="noopener noreferrer" class="bg-transparent border border-white text-white text-sm font-medium px-7 py-3 rounded hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                <span>Watch Trailer</span>
+              </a>
+              <button id="watchlist-btn" class="bg-transparent text-white/70 text-sm font-medium px-7 py-3 rounded border border-white/10 hover:border-white hover:text-white transition-all duration-300 flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">bookmark_add</span>
+                <span>Watchlist</span>
+              </button>
+            </div>
+
+            <!-- AI Mood Analysis Bento Block -->
+            <div class="mt-4 bg-surface-container-high/40 backdrop-blur-2xl border border-white/10 rounded-xl p-6 relative overflow-hidden group">
+              <div class="absolute inset-0 border border-secondary/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-secondary">magic_button</span>
+                <span class="font-label text-xs uppercase tracking-widest text-secondary font-semibold">AI Mood & Tone Analysis</span>
+              </div>
+              <p id="ai-mood-description" class="text-sm text-on-surface-variant mb-4 leading-relaxed"></p>
+              <div id="ai-mood-tags" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+
+          <!-- Right Column: Bento Credits -->
+          <div class="md:col-span-5 flex flex-col gap-5">
+            <!-- Director Card -->
+            <div class="bg-surface-container/50 backdrop-blur-xl border border-white/10 p-6 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/20">
+              <h3 class="font-label text-xs uppercase tracking-widest text-outline-variant mb-2">Director</h3>
+              <p id="movie-director" class="font-display text-lg text-white font-semibold"></p>
+            </div>
+
+            <!-- Lead Cast Card -->
+            <div class="bg-surface-container/50 backdrop-blur-xl border border-white/10 p-6 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/20">
+              <h3 class="font-label text-xs uppercase tracking-widest text-outline-variant mb-4">Featured Cast</h3>
+              <ul id="movie-cast" class="space-y-3"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aesthetic Recommendations CTA Section -->
+        <div class="mt-16 md:mt-20 relative overflow-hidden rounded-2xl glow-banner p-8 md:p-12 text-center flex flex-col items-center gap-4">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-secondary/15 border border-secondary/30 text-secondary font-label text-xs tracking-widest uppercase">
+            <span class="material-symbols-outlined text-sm">auto_awesome</span>
+            <span>Vibe & Atmosphere Match</span>
+          </div>
+          <h2 class="font-display text-2xl md:text-4xl font-bold text-white tracking-tight">
+            Want similar movies like this?
+          </h2>
+          <p id="recommend-cta-subtext" class="text-sm md:text-base text-on-surface-variant max-w-xl leading-relaxed">
+            Follow the atmospheric weight, visual aesthetic, and narrative cadence of this film into 10 curated recommendations.
+          </p>
+          <a
+            id="recommend-cta-btn"
+            href="#"
+            class="mt-2 inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-white text-background font-semibold text-sm hover:bg-secondary hover:shadow-[0_0_25px_rgba(124,208,255,0.4)] transition-all duration-300 group"
+          >
+            <span>Find Atmospheric Matches</span>
+            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer border-t border-white/10 bg-surface-container-lowest/90 backdrop-blur-xl py-12 px-6 md:px-16 mt-20 mb-16 md:mb-0 relative z-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10 text-left">
+      <!-- Brand Column -->
+      <div class="sm:col-span-2 md:col-span-1">
+        <a class="wordmark font-display text-xl font-bold tracking-widest text-white block mb-3" href="index.html">VANTA</a>
+        <p class="text-xs text-on-surface-variant leading-relaxed max-w-xs">A more considered way to watch. Powered by AI intelligence, guided by visual atmosphere and narrative tone.</p>
+      </div>
+
+      <!-- Navigation Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Platform</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="index.html">Home</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="discover.html?movie=Inception">Discover</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="watchlist.html">Watchlist Vault</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Licensing</a></li>
+        </ul>
+      </div>
+
+      <!-- Socials Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Connect</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-1" href="https://www.linkedin.com/in/sarthak-maurya-59b82a366" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span> <span>↗</span></a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-1" href="https://github.com/Arceaus" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <span>↗</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-label text-on-surface-variant">
+      <div>
+        © 2026 VANTA Inc. All rights reserved.
+      </div>
+      <div class="flex items-center gap-2 font-display text-sm text-white italic">
+        <span>Discover something worth watching.</span>
+        <span class="not-italic text-[10px] font-label px-2 py-0.5 rounded-full bg-secondary/15 text-secondary border border-secondary/30">VANTA AI</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="movie.js"></script>
+</body>
+</html>

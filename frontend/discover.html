@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VANTA — Animated Cinematic Recommendations Grid" />
+  <title>VANTA — Discover Recommendations</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#121317",
+            "on-background": "#e3e2e8",
+            "surface": "#121317",
+            "surface-container-lowest": "#0d0e12",
+            "surface-container-low": "#1a1b20",
+            "surface-container": "#1e1f24",
+            "surface-container-high": "#292a2e",
+            "surface-container-highest": "#343439",
+            "on-surface": "#e3e2e8",
+            "on-surface-variant": "#c4c7c8",
+            "primary": "#ffffff",
+            "secondary": "#7cd0ff",
+            "outline": "#8e9192",
+            "outline-variant": "#444748"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "display": ["Sora", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #121317;
+      color: #e3e2e8;
+      overflow-x: hidden;
+    }
+
+    .animated-bg {
+      background: linear-gradient(-45deg, #0d0e12, #1a1b20, #121317, #080909);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .glass-panel {
+      background: rgba(18, 19, 23, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stagger-fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .movie-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+    }
+
+    .movie-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255, 255, 255, 0);
+      border-radius: 0.5rem;
+      transition: border-color 0.4s ease;
+      pointer-events: none;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.03);
+      z-index: 10;
+      box-shadow: 0 0 35px rgba(124, 208, 255, 0.15);
+    }
+
+    .movie-card:hover::after {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .movie-card-img-wrapper {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .movie-card:hover .movie-card-img-wrapper {
+      transform: scale(1.08);
+    }
+
+    .movie-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,14,18,0.98) 0%, rgba(13,14,18,0.7) 50%, transparent 100%);
+      opacity: 0;
+      backdrop-filter: blur(0px);
+      transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+
+    .movie-card:hover .movie-card-overlay {
+      opacity: 1;
+      backdrop-filter: blur(6px);
+    }
+
+    .movie-card-content {
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.5s ease 0.1s;
+    }
+
+    .movie-card:hover .movie-card-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .pulse-interaction {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pulse-interaction:hover {
+      transform: scale(1.08);
+    }
+
+    .ambient-glow {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(circle, rgba(124, 208, 255, 0.04) 0%, rgba(18, 19, 23, 0) 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(100px);
+      animation: breathe 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes breathe {
+      0% { opacity: 0.4; transform: translateX(-50%) scale(0.9); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative animated-bg font-body">
+  <div class="ambient-glow"></div>
+
+  <!-- Header Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-6 md:px-16 py-4 glass-panel flex justify-between items-center border-b border-white/5">
+    <div class="flex items-center gap-8">
+      <a href="index.html" class="font-display font-bold text-2xl tracking-tighter text-white hover:opacity-90 transition-opacity">
+        VANTA
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a class="text-white font-medium border-b-2 border-secondary pb-1" href="discover.html?movie=Inception">Discover</a>
+        <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html#top">Search</a>
+        <a class="text-on-surface-variant hover:text-white transition-colors" href="watchlist.html">Watchlist</a>
+      </nav>
+    </div>
+
+    <!-- Live Search input on Discover page -->
+    <form id="discover-search-form" class="relative max-w-xs w-full hidden sm:block">
+      <input
+        id="discover-search-input"
+        type="search"
+        placeholder="Search another film..."
+        class="w-full bg-surface-container-low text-xs text-white placeholder-on-surface-variant/60 px-4 py-2 rounded-full border border-white/10 focus:border-secondary focus:outline-none transition-colors"
+        autocomplete="off"
+      />
+      <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-secondary p-1">
+        <span class="material-symbols-outlined text-sm">search</span>
+      </button>
+    </form>
+
+    <div class="flex items-center gap-4">
+      <a href="index.html" class="text-xs text-on-surface-variant hover:text-white transition-colors flex items-center gap-1">
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        <span>Back to Search</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Canvas -->
+  <main class="flex-1 px-6 md:px-16 pt-28 md:pt-32 pb-20 max-w-7xl mx-auto w-full relative z-10">
+    <div id="page-header" class="mb-10 md:mb-14 transition-opacity duration-300">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-3">
+        <div>
+          <span id="query-badge" class="inline-block px-3 py-1 rounded-full text-xs font-label bg-surface-container-high text-secondary border border-secondary/20 mb-3">
+            ATMOSPHERIC MATCH
+          </span>
+          <h1 id="discover-heading" class="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">
+            Recommended for You
+          </h1>
+        </div>
+      </div>
+      <p id="discover-subheading" class="text-body text-on-surface-variant max-w-2xl text-sm md:text-base leading-relaxed">
+        Curated recommendations matching the tone and narrative depth of your selection.
+      </p>
+    </div>
+
+    <!-- Status / Loading Indicator -->
+    <div id="loading-state" class="py-20 text-center flex flex-col items-center justify-center gap-4">
+      <div class="w-8 h-8 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-on-surface-variant tracking-wider font-label">READING THE ATMOSPHERE...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden py-16 text-center max-w-md mx-auto">
+      <span class="material-symbols-outlined text-4xl text-amber-400 mb-3">movie_off</span>
+      <h3 id="error-title" class="font-display text-xl font-semibold text-white mb-2">Title Not Found</h3>
+      <p id="error-message" class="text-sm text-on-surface-variant mb-6"></p>
+      <a href="index.html" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-background font-medium text-sm hover:bg-secondary transition-colors">
+        Try Another Film
+      </a>
+    </div>
+
+    <!-- Movie Grid Container -->
+    <div
+      id="movieGrid"
+      class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-6"
+    ></div>
+  </main>
+
+  <footer class="site-footer border-t border-white/10 bg-surface-container-lowest/90 backdrop-blur-xl py-12 px-6 md:px-16 mt-20 mb-16 md:mb-0 relative z-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10 text-left">
+      <!-- Brand Column -->
+      <div class="sm:col-span-2 md:col-span-1">
+        <a class="wordmark font-display text-xl font-bold tracking-widest text-white block mb-3" href="index.html">VANTA</a>
+        <p class="text-xs text-on-surface-variant leading-relaxed max-w-xs">A more considered way to watch. Powered by AI intelligence, guided by visual atmosphere and narrative tone.</p>
+      </div>
+
+      <!-- Navigation Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Platform</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="index.html">Home</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="discover.html?movie=Inception">Discover</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="watchlist.html">Watchlist Vault</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Licensing</a></li>
+        </ul>
+      </div>
+
+      <!-- Socials Column -->
+      <div>
+        <h4 class="font-label text-xs uppercase tracking-widest text-white font-semibold mb-4">Connect</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-1" href="https://www.linkedin.com/in/sarthak-maurya-59b82a366" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span> <span>↗</span></a></li>
+          <li><a class="text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-1" href="https://github.com/Arceaus" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <span>↗</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-label text-on-surface-variant">
+      <div>
+        © 2026 VANTA Inc. All rights reserved.
+      </div>
+      <div class="flex items-center gap-2 font-display text-sm text-white italic">
+        <span>Discover something worth watching.</span>
+        <span class="not-italic text-[10px] font-label px-2 py-0.5 rounded-full bg-secondary/15 text-secondary border border-secondary/30">VANTA AI</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Bar -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest/90 backdrop-blur-xl z-50 flex justify-around items-center py-3 border-t border-white/5">
+    <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-xl">home</span>
+      <span class="font-label text-[10px]">Home</span>
+    </a>
+    <a href="discover.html?movie=Inception" class="flex flex-col items-center gap-1 text-secondary">
+      <span class="material-symbols-outlined text-xl">explore</span>
+      <span class="font-label text-[10px]">Discover</span>
+    </a>
+    <a href="watchlist.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-xl">bookmark</span>
+      <span class="font-label text-[10px]">Watchlist</span>
+    </a>
+  </nav>
+
+  <script src="discover.js"></script>
+</body>
+</html>
