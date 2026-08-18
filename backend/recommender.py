@@ -18,9 +18,22 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
+def _load_semantic_embeddings() -> np.ndarray:
+    p1 = PROCESSED_DATA_DIR / "semantic_embeddings_part1.npy"
+    p2 = PROCESSED_DATA_DIR / "semantic_embeddings_part2.npy"
+    full_p = PROCESSED_DATA_DIR / "semantic_embeddings.npy"
+    
+    if p1.exists() and p2.exists():
+        return np.vstack([np.load(p1), np.load(p2)])
+    elif full_p.exists():
+        return np.load(full_p)
+    else:
+        raise FileNotFoundError("Semantic embeddings matrices missing.")
+
+
 # Load the persisted artifacts and fit the query indexes once per process.
-movies_df = pd.read_csv(PROCESSED_DATA_DIR / "movies_enriched.csv")
-semantic_embeddings = np.load(PROCESSED_DATA_DIR / "semantic_embeddings.npy")
+movies_df = pd.read_csv(PROCESSED_DATA_DIR / "movies_enriched.csv", low_memory=False)
+semantic_embeddings = _load_semantic_embeddings()
 weighted_tfidf_matrix = sp.load_npz(
     PROCESSED_DATA_DIR / "weighted_tfidf_matrix.npz"
 )

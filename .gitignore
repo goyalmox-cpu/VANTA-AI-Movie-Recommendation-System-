@@ -8,13 +8,12 @@ venv/
 env/
 ENV/
 
-# Large Data & Vector Matrices (Raw IMDB TSV files & Precomputed Embeddings >100MB)
+# Large Raw TSV Datasets & Full 107MB Single Matrix
 data/raw/
 data/interim/
-*.npy
-*.npz
-*.joblib
 *.tsv
+data/processed/semantic_embeddings.npy
+data/processed/semantic_embeddings.npz
 
 # Agent & System Internal Files
 .agents/
