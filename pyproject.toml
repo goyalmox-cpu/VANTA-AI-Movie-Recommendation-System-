@@ -1,2 +1,15 @@
+[project]
+name = "vanta"
+version = "1.0.0"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "pandas>=1.5.0",
+    "numpy>=1.23.0",
+    "scikit-learn>=1.2.0",
+    "joblib>=1.2.0",
+]
+
 [tool.vercel]
 entrypoint = "backend.app.main:app"
