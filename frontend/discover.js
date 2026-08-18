@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loadingState.classList.add('hidden');
       errorState.classList.remove('hidden');
       errorMessage.textContent = err.message.includes('Failed to fetch')
-        ? 'Could not connect to backend API. Ensure http://localhost:8000 is running.'
+        ? 'Could not connect to backend API.'
         : err.message;
     }
   }
