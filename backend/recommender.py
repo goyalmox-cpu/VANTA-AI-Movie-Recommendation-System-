@@ -14,49 +14,27 @@ import scipy.sparse as sp
 from sklearn.neighbors import NearestNeighbors
 
 
-def _find_data_dir() -> Path:
-    candidates = [
-        Path(__file__).resolve().parent.parent / "data" / "processed",
-        Path.cwd() / "data" / "processed",
-        Path("/var/task") / "data" / "processed",
-        Path(__file__).resolve().parent / "data" / "processed",
-    ]
-    for p in candidates:
-        if (p / "movies_enriched.csv").exists():
-            return p
-    return candidates[0]
-
-PROCESSED_DATA_DIR = _find_data_dir()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
-# Load the persisted artifacts efficiently for fast serverless cold starts.
-movies_df = pd.read_csv(PROCESSED_DATA_DIR / "movies_enriched.csv", low_memory=False)
-semantic_embeddings = np.load(PROCESSED_DATA_DIR / "semantic_embeddings.npy", mmap_mode="r")
+# Load the persisted artifacts and fit the query indexes once per process.
+movies_df = pd.read_csv(PROCESSED_DATA_DIR / "movies_enriched.csv")
+semantic_embeddings = np.load(PROCESSED_DATA_DIR / "semantic_embeddings.npy")
 weighted_tfidf_matrix = sp.load_npz(
     PROCESSED_DATA_DIR / "weighted_tfidf_matrix.npz"
 )
 
-_semantic_index = None
-_tfidf_index = None
+semantic_index = NearestNeighbors(metric="cosine", algorithm="brute")
+semantic_index.fit(semantic_embeddings)
 
-def _get_semantic_index():
-    global _semantic_index
-    if _semantic_index is None:
-        _semantic_index = NearestNeighbors(metric="cosine", algorithm="brute")
-        _semantic_index.fit(semantic_embeddings)
-    return _semantic_index
-
-def _get_tfidf_index():
-    global _tfidf_index
-    if _tfidf_index is None:
-        _tfidf_index = NearestNeighbors(metric="cosine", algorithm="brute")
-        _tfidf_index.fit(weighted_tfidf_matrix)
-    return _tfidf_index
+tfidf_index = NearestNeighbors(metric="cosine", algorithm="brute")
+tfidf_index.fit(weighted_tfidf_matrix)
 
 
 def get_semantic_candidates(movie_index: int, n: int = 20) -> tuple[np.ndarray, np.ndarray]:
     """Return semantic-nearest candidates, excluding the queried movie."""
-    distances, indices = _get_semantic_index().kneighbors(
+    distances, indices = semantic_index.kneighbors(
         semantic_embeddings[movie_index].reshape(1, -1),
         n_neighbors=n + 1,
     )
@@ -65,7 +43,7 @@ def get_semantic_candidates(movie_index: int, n: int = 20) -> tuple[np.ndarray, 
 
 def get_tfidf_candidates(movie_index: int, n: int = 20) -> tuple[np.ndarray, np.ndarray]:
     """Return weighted-TF-IDF-nearest candidates, excluding the queried movie."""
-    distances, indices = _get_tfidf_index().kneighbors(
+    distances, indices = tfidf_index.kneighbors(
         weighted_tfidf_matrix[movie_index],
         n_neighbors=n + 1,
     )

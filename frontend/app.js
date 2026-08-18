@@ -27,10 +27,6 @@ if (entrance) {
   window.setTimeout(() => entrance.classList.add('is-complete'), 3600);
 }
 
-const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? 'http://127.0.0.1:8000'
-  : '';
-
 const tasteNotes = document.querySelector('#taste-notes');
 const chainTrack = tasteNotes ? tasteNotes.querySelector('.film-chain-track') : null;
 
@@ -44,7 +40,7 @@ function attachFilmShortcut(button) {
 async function loadRandomFilmShortcuts() {
   if (!chainTrack) return;
   try {
-    const response = await fetch(`${API_BASE}/movies/random?limit=8`);
+    const response = await fetch('http://localhost:8000/movies/random?limit=8');
     if (!response.ok) throw new Error('Could not load films.');
     const { movies } = await response.json();
     const chainMovies = [...movies, ...movies];
@@ -69,7 +65,7 @@ const trendingTrack = document.querySelector('#trending-track');
 async function loadTrendingMovies() {
   if (!trendingTrack) return;
   try {
-    const response = await fetch(`${API_BASE}/movies/trending?limit=10`);
+    const response = await fetch('http://localhost:8000/movies/trending?limit=10');
     if (!response.ok) throw new Error('Could not load trending films.');
     const { movies } = await response.json();
 
@@ -147,7 +143,7 @@ async function findMovieSuggestions() {
   const query = input.value.trim();
   if (query.length < 2) return closeSuggestions();
   try {
-    const response = await fetch(`${API_BASE}/movies/search?query=${encodeURIComponent(query)}&limit=6`);
+    const response = await fetch(`http://localhost:8000/movies/search?query=${encodeURIComponent(query)}&limit=6`);
     const { movies } = await response.json();
     // Ignore a response for text the person has already changed.
     if (input.value.trim() === query) renderSuggestions(movies);

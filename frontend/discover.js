@@ -24,10 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://127.0.0.1:8000'
-    : '';
-
   fetchRecommendations(selectedMovie);
 
   async function fetchRecommendations(movieTitle) {
@@ -41,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subheading.textContent = `Curated atmospheric selections balancing narrative depth, visual craft, and thematic resonance.`;
 
     try {
-      const response = await fetch(`${API_BASE}/recommend?movie=${encodeURIComponent(movieTitle)}&limit=10`);
+      const response = await fetch(`http://localhost:8000/recommend?movie=${encodeURIComponent(movieTitle)}&limit=10`);
       const payload = await response.json();
 
       if (!response.ok || !payload.found) {
