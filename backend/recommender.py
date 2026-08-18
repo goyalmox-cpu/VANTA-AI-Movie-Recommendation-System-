@@ -8,6 +8,7 @@ loads the already-generated artifacts; it never trains or rebuilds them.
 from pathlib import Path
 from typing import Any
 
+import gzip
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
@@ -19,11 +20,16 @@ PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
 def _load_semantic_embeddings() -> np.ndarray:
+    gz1 = PROCESSED_DATA_DIR / "semantic_embeddings_part1.npy.gz"
+    gz2 = PROCESSED_DATA_DIR / "semantic_embeddings_part2.npy.gz"
     p1 = PROCESSED_DATA_DIR / "semantic_embeddings_part1.npy"
     p2 = PROCESSED_DATA_DIR / "semantic_embeddings_part2.npy"
     full_p = PROCESSED_DATA_DIR / "semantic_embeddings.npy"
     
-    if p1.exists() and p2.exists():
+    if gz1.exists() and gz2.exists():
+        with gzip.open(gz1, "rb") as f1, gzip.open(gz2, "rb") as f2:
+            return np.vstack([np.load(f1), np.load(f2)])
+    elif p1.exists() and p2.exists():
         return np.vstack([np.load(p1), np.load(p2)])
     elif full_p.exists():
         return np.load(full_p)
