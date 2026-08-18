@@ -20,17 +20,12 @@ PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
 def _load_semantic_embeddings() -> np.ndarray:
-    gz1 = PROCESSED_DATA_DIR / "semantic_embeddings_part1.npy.gz"
-    gz2 = PROCESSED_DATA_DIR / "semantic_embeddings_part2.npy.gz"
-    p1 = PROCESSED_DATA_DIR / "semantic_embeddings_part1.npy"
-    p2 = PROCESSED_DATA_DIR / "semantic_embeddings_part2.npy"
+    p_parts = [PROCESSED_DATA_DIR / f"semantic_embeddings_p{i}.npy.gz" for i in range(1, 5)]
     full_p = PROCESSED_DATA_DIR / "semantic_embeddings.npy"
     
-    if gz1.exists() and gz2.exists():
-        with gzip.open(gz1, "rb") as f1, gzip.open(gz2, "rb") as f2:
-            return np.vstack([np.load(f1), np.load(f2)]).astype(np.float32)
-    elif p1.exists() and p2.exists():
-        return np.vstack([np.load(p1), np.load(p2)])
+    if all(p.exists() for p in p_parts):
+        arrays = [np.load(gzip.open(p, "rb")) for p in p_parts]
+        return np.vstack(arrays).astype(np.float32)
     elif full_p.exists():
         return np.load(full_p)
     else:
