@@ -14,8 +14,19 @@ import scipy.sparse as sp
 from sklearn.neighbors import NearestNeighbors
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
+def _find_data_dir() -> Path:
+    candidates = [
+        Path(__file__).resolve().parent.parent / "data" / "processed",
+        Path.cwd() / "data" / "processed",
+        Path("/var/task") / "data" / "processed",
+        Path(__file__).resolve().parent / "data" / "processed",
+    ]
+    for p in candidates:
+        if (p / "movies_enriched.csv").exists():
+            return p
+    return candidates[0]
+
+PROCESSED_DATA_DIR = _find_data_dir()
 
 
 # Load the persisted artifacts and fit the query indexes once per process.
