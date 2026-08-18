@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "functions": {
+    "backend/app/main.py": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
+  "routes": [
+    {
+      "src": "^/(health|docs|openapi.json|redoc|recommend|movies/.*|movie/details.*)",
+      "dest": "/backend/app/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ]
+}

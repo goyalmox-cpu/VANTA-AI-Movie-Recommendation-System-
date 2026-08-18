@@ -16,7 +16,22 @@ from sklearn.neighbors import NearestNeighbors
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
+
+
+def _find_data_dir() -> Path:
+    candidates = [
+        PROJECT_ROOT / "data" / "processed",
+        Path.cwd() / "data" / "processed",
+        Path("/var/task") / "data" / "processed",
+        Path(__file__).resolve().parent / "data" / "processed",
+    ]
+    for p in candidates:
+        if (p / "movies_enriched.csv").exists():
+            return p
+    return candidates[0]
+
+
+PROCESSED_DATA_DIR = _find_data_dir()
 
 
 def _load_semantic_embeddings() -> np.ndarray:
