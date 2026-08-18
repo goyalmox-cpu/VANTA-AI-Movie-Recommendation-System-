@@ -1,0 +1,519 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VANTA - Discover</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#454650",
+                "secondary": "#7cd0ff",
+                "tertiary-fixed": "#e1e1ed",
+                "on-tertiary-container": "#62646e",
+                "on-tertiary-fixed": "#191b23",
+                "on-tertiary": "#2e3039",
+                "surface-container-highest": "#343439",
+                "primary-fixed": "#e2e2e2",
+                "surface-container": "#1e1f24",
+                "surface-dim": "#121317",
+                "on-primary": "#2f3131",
+                "on-secondary-container": "#00374d",
+                "secondary-fixed-dim": "#7cd0ff",
+                "inverse-surface": "#e3e2e8",
+                "on-error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#c5c6d1",
+                "on-error": "#690005",
+                "outline": "#8e9192",
+                "primary": "#ffffff",
+                "secondary-container": "#00a6e0",
+                "surface-container-lowest": "#0d0e12",
+                "surface-container-high": "#292a2e",
+                "on-primary-fixed": "#1a1c1c",
+                "on-secondary": "#00354a",
+                "surface-tint": "#c6c6c7",
+                "on-surface-variant": "#c4c7c8",
+                "outline-variant": "#444748",
+                "tertiary-container": "#e1e1ed",
+                "primary-fixed-dim": "#c6c6c7",
+                "on-background": "#e3e2e8",
+                "surface-bright": "#38393e",
+                "on-secondary-fixed": "#001e2c",
+                "background": "#121317",
+                "on-secondary-fixed-variant": "#004c69",
+                "surface": "#121317",
+                "inverse-primary": "#5d5f5f",
+                "tertiary": "#ffffff",
+                "surface-container-low": "#1a1b20",
+                "error-container": "#93000a",
+                "on-primary-container": "#636565",
+                "surface-variant": "#343439",
+                "on-surface": "#e3e2e8",
+                "inverse-on-surface": "#2f3035",
+                "error": "#ffb4ab",
+                "primary-container": "#e2e2e2",
+                "secondary-fixed": "#c4e7ff",
+                "on-primary-fixed-variant": "#454747"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "container-padding-desktop": "64px",
+                "gutter": "24px",
+                "section-gap": "120px",
+                "unit": "8px",
+                "container-padding-mobile": "24px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Sora"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "display-lg-mobile": [
+                        "Sora"
+                ],
+                "display-lg": [
+                        "Sora"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "1.4",
+                                "letterSpacing": "0.02em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.8",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            overflow-x: hidden;
+        }
+
+        .animated-bg {
+            background: linear-gradient(-45deg, #0d0e12, #1a1b20, #121317, #080909);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-panel {
+            background: rgba(18, 19, 23, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stagger-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .movie-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: theme('borderRadius.lg');
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0);
+            border-radius: theme('borderRadius.lg');
+            transition: border-color 0.4s ease;
+            pointer-events: none;
+        }
+
+        .movie-card:hover::after {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .movie-card-img-wrapper {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .movie-card:hover .movie-card-img-wrapper {
+            transform: scale(1.08);
+        }
+        
+        .movie-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13,14,18,0.95) 0%, rgba(13,14,18,0.5) 50%, transparent 100%);
+            opacity: 0;
+            backdrop-filter: blur(0px);
+            transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: theme('spacing.unit')*3;
+        }
+
+        .movie-card:hover .movie-card-overlay {
+            opacity: 1;
+            backdrop-filter: blur(4px);
+        }
+
+        .movie-card-content {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.5s ease 0.1s;
+        }
+
+        .movie-card:hover .movie-card-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .pulse-interaction {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pulse-interaction:hover {
+            transform: scale(1.1);
+        }
+
+        .pulse-interaction:active {
+            transform: scale(0.95);
+        }
+        
+        /* Subtle background glow effect */
+        .ambient-glow {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(circle, rgba(124, 208, 255, 0.03) 0%, rgba(18, 19, 23, 0) 70%);
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(100px);
+            animation: breathe 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes breathe {
+            0% { opacity: 0.5; transform: translateX(-50%) scale(0.9); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row relative animated-bg">
+<div class="ambient-glow"></div>
+<!-- TopNavBar (Hidden on md and up, acting as a top bar for mobile if needed, though instructions say responsive pivot) -->
+<header class="hidden md:flex justify-between items-center px-container-padding-desktop py-6 w-full mx-auto fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/5 glass-panel">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-display-lg tracking-tighter text-on-surface drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">VANTA</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface font-headline-md border-b-2 border-primary pb-1" href="#">Discover</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300 font-headline-md" href="#">Library</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300 font-headline-md" href="#">Collections</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary hover:text-secondary transition-colors duration-300 cursor-pointer text-2xl pulse-interaction" data-icon="account_circle" style="font-variation-settings: &quot;FILL&quot; 0;">account_circle</span>
+</div>
+</header>
+<!-- Mobile Header -->
+<header class="md:hidden flex justify-between items-center px-container-padding-mobile py-4 w-full z-50 bg-transparent backdrop-blur-xl border-b border-white/5 fixed top-0 glass-panel">
+<h1 class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-on-surface drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">VANTA</h1>
+<span class="material-symbols-outlined text-primary cursor-pointer text-2xl pulse-interaction" data-icon="account_circle">account_circle</span>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 px-container-padding-mobile md:px-container-padding-desktop pt-[100px] md:pt-[120px] pb-[120px] mx-auto w-full relative z-10">
+<div class="mb-12 md:mb-16" id="page-header" style="transition: opacity 0.1s ease-out;">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Recommended for You</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Curated selections based on your cinematic preferences, blending timeless classics with emerging masterpieces.</p>
+</div>
+<!-- Grid Container -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-gutter" id="movieGrid">
+<!-- Movie Card 1 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A cinematic, moody poster for a sci-fi film featuring a solitary figure silhouetted against a massive, glowing, geometric monolith in a desolate, rocky landscape. Deep blacks, stark whites, and a vibrant electric blue accent light. High-end, premium aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDjUHEeV1wO6yGqiAiN8DIRHyKwbZOObXTyZH15W6InikzzuZbguFWe1YsPn7_QqfTFOAf9bfC41BAB7vYV1kdhjiLOdFPBbCVrHX0c7IP6zF9A6N0DmFwu5RBjroPFFz3wLElyzHe0hyC4eAvjByqF2DKpm3TBnOsEPNzxIEM6zoxfitWQylyBhskOOZ20RwW6-sHB5OORjWc60ovo2gOG0P6zy-7ed6w3XnNOjOFv2_I3kOWmLnWZfg&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">SCI-FI</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">AI MATCH</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">The Monolith</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">An explorer uncovers an ancient structure that bends reality.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 2 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A moody, high-contrast film poster depicting a neon-lit, rain-slicked cyberpunk street at night. A lone figure holds a glowing red umbrella. Deep shadows, vibrant neon pinks and blues. Cinematic minimalism." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBgQQvpDSTQJIvYv7da1vOz_9BIleKAM03j5qnYaWS3zLBwQGl2dWBQyhVqU126TPR9vepwoTjxxngF6B-Z_2ST4F58nQipK7H_t5eUrDBXBNKosWGuV--opd8vD8UZINrIoRAqnE8NbWMznBqQ8eDeGd2W3Ae17goBdIGtMBaCMDaGMefLKlfQrRwnYcAzesi5gtvo_7Z0bMyqYphHURMX2SqvNxF4wNF2C6IP9PJNJqcTVXIDx0t_gA&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">NOIR</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Neon Rain</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">A detective navigates a city where memories are currency.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 3 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A minimalist, ethereal film poster showing a vast, calm ocean merging perfectly with a starry night sky. A single, small, glowing white boat floats in the center. Deep indigo and black tones. Meditative and premium." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCRopX_MzedB4zXuZGwScPqxbLKuWbxmVXE3ljHtQ8YnFnZZDjr8Wa37OCw-9AN4-yhpW6x5Tp5huhSHr4nGKtMmXPuGlde6ngyyVPweKopFYs82i-IjTsRGdUBNst1noUeZcXdKJnHr5H5l_R4eZdH5ybsQJzpJNBcrvJX51n_DgxR6W24XWhxW2bfkQ5mG3A2QOHyq79WBx95jEEzGSDi0zFw7utN1xwg1Z2AUX2Cgbwymp7jANlz-Q&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">DRAMA</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Silent Tide</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">A poetic journey across the boundaries of consciousness.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 4 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="An intense, high-contrast poster featuring a close-up of a human eye, reflecting a massive explosion. Stark black and white photography with a single burst of fiery orange in the reflection. Cinematic and gripping." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCJ-HZwfxbCoCd5OD5mUrBQpP3nBAe9EQvvZ-mw029VG4t7r9Q3b3aRYZyXOxixS0FGcgFK9lqKZxKCzTKY3tgdjJLuKjau0xB4CiANvC5AnQb86WU5XyxVdCKzTW4qXX5WXXTb6U-cvDfOKl0WgfhA7jAmwYU-dZOnIysNSdK-_9yloW12EnROd8JdsGrkmbpM69nJyUIv7QQE-9iHRbDKj_tIQ5c0lEyxTev0rQXficnHO5AWl86o2g&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">THRILLER</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Flashpoint</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">One moment changes the trajectory of a city forever.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 5 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A surreal, beautiful poster showing a dense, glowing forest at dusk. The trees emit a soft, bioluminescent green and blue light. Deep, rich blacks contrast with the ethereal glow. High-fidelity fantasy aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBwBPc0APpBwpZ7mcSmYadQ7RXC866rpOWgF8CNmvieZSDBSUUbCxZaI7Ah42IIYbafgULmFf1Fd3qxDkCjI7UkzaK_SLsToAGq1ye4W4dNSsMytB6ouCt_GgDFVcnggTwdW5KCI6LnctgzVY0MHHk3sfzlrfmQvcbHAiKG99tvKzVEsy7p1qQ4Bq2tyESqPOJj2rcc5o02-Y92snBR7cbwrVFAKE3JyLdHMysF6u926RCOeNn6oDFdvw&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">FANTASY</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">TOP PICK</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Lumina</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">A fable about the lost light of an ancient world.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 6 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A harsh, brutalist architectural structure looming in a hazy, pale yellow smog. Stark geometric lines, heavy shadows, and a dystopian atmosphere. Cinematic and stark." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAVBpArlmL4F_COb190Z-9ddiZHBnubTpPrUhhGkrwgLM1DsmVV0tL9CEHbdrGmhRPaxJC8_Xp3SQEfLrj1C3lDWTFVJwkvJ3BcOWqcBcv-xlCo_uid7KKurjrU1dggV1AZzq2vThmOYdxRoJRn5jDSCG-viYBAdPn7Vb3UKBLpgKbYSd3zQ6SEhDQmy2VOmg4j8TiSBaeWLgYX4IW17qycDcifUthsPvkvTNJIcWvnspfHDSlKTdZJOw&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">DYSTOPIAN</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Concrete Sun</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">Survival in a city built to suppress the human spirit.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 7 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in md:col-span-2 lg:col-span-1 aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A minimalist poster featuring a solitary, sharply dressed figure walking down an endless, abstract spiral staircase. High contrast black and white with a stark, sterile light. Psychological thriller aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDKa8Q-6PxTYgyAkXPwguequfBja-fcfuAVbH5pgdA9KYLK3aJrkjul7jcbLoTk6SsqutOV8bb69f_0LpsGLoIyvxDafVIc5apmqjTC3IqYgX4pZLuJkDTE6esvXZcXRo_u6CY529d4GhWcxHrjTcCwv7CMXop0sgsF7yFmfW9Sj8-jml_FxcBVU275vAAUe7Uu45R7Yvg-rmc9lyIQdriFA5gYtkH5ZUueTkUG9T_lFUe8wkWk0la9xg&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">PSYCHOLOGICAL</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">The Descent</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">A mind unwinding in the face of absolute isolation.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 8 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A vibrant, dynamic poster showing blurred light trails of a fast-moving vehicle through a futuristic metropolis. Deep blacks cut by streaks of intense cyan and magenta. High-energy, premium cinematic style." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDp0L8dIt9F_UG3gWNn__p-S24uDszr7XDyGWIr58OdPgRLw1WBK-Gygc2n5PO91HU7S7jZHqp-RdQorstnvsU7wqW9XVx1Yn911-R9x1GsQVaYjHy2jnq9kJU3_hASWJHPQx_qKIJeCJcx_CHLwSw88vs6_-xCPZe3t8LqWkcUQStxcXYAL_Rk3mbONAW8qDGFTvfYUETADB6nCrloJ-0hzlfL9iE9b1dH8Fzez27htzTkLVY2S7JKXQ&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">ACTION</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Velocity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">A breathless race against time through a sprawling megalopolis.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 9 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A quiet, domestic scene viewed through a rain-streaked window. Soft, warm amber light contrasts with the cold, blueish-grey of the rain outside. A poignant, understated drama aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAYZFOhDIS-VpTKc-oxMjrZsV5OK1iRkkMsFOnuhrq3jnVtR4egJBWFW-77LjxbDpJZeRH6eVovbu0DglIHXQPr6Joc5VkjF-0q_jhPhpJU83rJMNqoDes5KX635MKIKrnnV5NBr2sNhUNsGfNBvwoiDiAXHyUNVLPIaIVLzYcJ3NsUwSQSAXupn3Wyq5lNYdGMnS0pfg5fbhIDDnblgo5e2dBIWCfyfUk7VOfQxK1vB4DqmAwt3oFfkA&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">INDIE</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Windowpane</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">Intimate lives intersecting on a rainy afternoon.</p>
+</div>
+</div>
+</a>
+<!-- Movie Card 10 -->
+<a class="movie-card group block bg-surface-container-low stagger-fade-in aspect-[3/4]" href="#" style="opacity: 0; transform: translateY(30px);">
+<div class="movie-card-img-wrapper">
+<div class="bg-cover bg-center w-full h-full" data-alt="A sprawling, epic space opera poster featuring a massive, intricate starship hovering over a gaseous, swirling planet. Deep space blacks, rich nebula purples, and brilliant starlight. Expansive and premium." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAZVLACCPZQ__5ZVJfCal_QmuQRbAfx0bRVYVDKf_Eq_2ENjF4KriiCJ0q58slJEkwM-mIdNBfbSS9DuauLOsszvEZ_NFzjs4QUVJ5311nEALdjkh5IgD_MWEqHZjVOvjPYGQnAG6935dYxaJTM-xSB70ApneRRLeS3hsYUySBSPbOJpnOsWHqHiwcvFfaTzKEKQJ52xaQSpHFDiLnrwqHMHFMHScLxK19Fegbs3e7V1fa6wfckBAO1vA&quot;);"></div>
+</div>
+<div class="movie-card-overlay px-8 glass-panel py-4">
+<div class="movie-card-content flex flex-col gap-2">
+<div class="flex gap-2 mb-1">
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">EPIC</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-1 rounded-full font-label-sm text-label-sm">NEW</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface tracking-wide leading-relaxed">Aetherius</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm leading-loose tracking-wide leading-relaxed">The final voyage of humanity's greatest vessel.</p>
+</div>
+</div>
+</a>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Visible only on md:hidden) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest/80 backdrop-blur-2xl z-50 flex justify-around items-center py-4 px-6 border-t border-white/5">
+<a class="flex flex-col items-center gap-1 text-on-surface pulse-interaction" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="explore" style="font-variation-settings: &quot;FILL&quot; 1;">explore</span>
+<span class="font-label-sm text-[10px]">Discover</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant pulse-interaction" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="video_library">video_library</span>
+<span class="font-label-sm text-[10px]">Library</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant pulse-interaction" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="collections_bookmark">collections_bookmark</span>
+<span class="font-label-sm text-[10px]">Collections</span>
+</a>
+</nav>
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll('.stagger-fade-in');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // Scroll-triggered fade-out effect for the header section
+            const pageHeader = document.getElementById('page-header');
+            
+            window.addEventListener('scroll', () => {
+                if (!pageHeader) return;
+                
+                const scrollPosition = window.scrollY;
+                const fadeStart = 0;
+                const fadeEnd = 300;
+                
+                let opacity = 1;
+                if (scrollPosition > fadeStart) {
+                    opacity = 1 - ((scrollPosition - fadeStart) / (fadeEnd - fadeStart));
+                    opacity = Math.max(0, Math.min(1, opacity));
+                }
+                
+                pageHeader.style.opacity = opacity;
+                pageHeader.style.transform = `translateY(${scrollPosition * 0.2}px)`; // slight parallax
+            });
+        });
+    </script>
+
+
+</body></html>

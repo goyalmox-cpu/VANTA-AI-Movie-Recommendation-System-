@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VANTA - Cinematic Minimalism</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter and Geist -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#767575",
+                        "outline": "#988e90",
+                        "surface-container-high": "#282a2b",
+                        "outline-variant": "#4c4546",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "on-surface": "#e2e2e2",
+                        "on-secondary-fixed": "#07006c",
+                        "on-surface-variant": "#cfc4c5",
+                        "on-primary": "#303030",
+                        "background": "#121414",
+                        "primary": "#c6c6c6",
+                        "tertiary-container": "#000000",
+                        "secondary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "primary-container": "#000000",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary": "#c8c6c5",
+                        "secondary-fixed": "#e1e0ff",
+                        "surface-bright": "#37393a",
+                        "on-error": "#690005",
+                        "on-secondary": "#1000a9",
+                        "inverse-primary": "#5e5e5e",
+                        "surface-container-low": "#1a1c1c",
+                        "surface-container-highest": "#333535",
+                        "surface-dim": "#121414",
+                        "surface-variant": "#333535",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#474747",
+                        "inverse-surface": "#e2e2e2",
+                        "tertiary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "surface": "#121414",
+                        "on-tertiary": "#313030",
+                        "on-background": "#e2e2e2",
+                        "surface-container": "#1e2020",
+                        "inverse-on-surface": "#2f3131",
+                        "secondary-container": "#3131c0",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-secondary-container": "#b0b2ff",
+                        "on-primary-container": "#757575",
+                        "surface-tint": "#c6c6c6",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "surface-container-lowest": "#0c0f0f",
+                        "tertiary-fixed-dim": "#c8c6c5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "display-mobile": ["Inter"],
+                        "label-caps": ["Geist"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.2em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "title-sm": ["20px", { "lineHeight": "1.5", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        /* Global Transitions */
+        * {
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-search {
+            background: rgba(18, 18, 18, 0.4);
+            backdrop-filter: blur(24px); /* backdrop-blur-xl approximation */
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-search:focus-within {
+            border-color: rgba(99, 102, 241, 0.5); /* Electric Indigo subtle glow */
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+            background: rgba(18, 18, 18, 0.6);
+        }
+
+        /* Movie Card Hover Effects */
+        .movie-card-container {
+            overflow: hidden;
+            border-radius: 0.25rem;
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .movie-card-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            transition: border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .movie-card-container:hover {
+            transform: translateY(-8px);
+        }
+
+        .movie-card-container:hover::after {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .movie-image {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .movie-card-container:hover .movie-image {
+            transform: scale(1.1);
+        }
+        
+        .movie-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 100%);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .movie-card-container:hover .movie-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Entrance Animation Sequence */
+        #entrance-screen {
+            position: fixed;
+            inset: 0;
+            background-color: #000000; /* Start black */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .vanta-letter {
+            opacity: 0;
+            display: inline-block;
+        }
+        
+        #entrance-tagline {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 1s ease-in-out;
+        }
+
+        /* Background Slideshow */
+        .bg-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        
+        .bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Micro-interactions */
+        button:active, .interactive:active {
+            transform: scale(0.98);
+        }
+
+        /* Layout Transition */
+        #main-container {
+            transition: padding-top 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .centered-layout {
+            padding-top: 35vh !important;
+        }
+
+        /* Background Blur Animation (AI breathing) */
+        @keyframes ai-breathe {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+        
+        .ai-glow {
+            animation: ai-breathe 8s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden min-h-screen">
+<!-- Entrance Animation Screen -->
+<div id="entrance-screen">
+<div class="flex flex-col items-center origin-center" id="entrance-content">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface tracking-[0.2em] font-label-caps uppercase" style="font-family: 'Geist', sans-serif;">
+<span class="vanta-letter" id="v-l1">V</span>
+<span class="vanta-letter" id="v-l2">A</span>
+<span class="vanta-letter" id="v-l3">N</span>
+<span class="vanta-letter" id="v-l4">T</span>
+<span class="vanta-letter" id="v-l5">A</span>
+</h1>
+<p class="mt-unit font-body-md text-body-md text-on-surface-variant tracking-wider" id="entrance-tagline">
+            Powered by AI. Guided by taste.
+        </p>
+</div>
+</div>
+<!-- Cinematic Background Slideshow -->
+<div class="fixed inset-0 z-[-2] overflow-hidden">
+<div class="absolute inset-0 bg-black/60 z-10 backdrop-blur-md"></div>
+<div class="bg-slide active blur-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTv-VxJD8dlMIk-DosL7lm48_L-1053PyxAteLociNXNglILN-lSjJC-2wqZ-2xn5Wim58ECJoiq82GpAOmET_c8qPqhwTjPRc5rpUNY9gOPhvEjuPADZQnMrt2aNquFS5T5lsNF0SQBveRrNSScl6cVJ9Apu-trg1K76GNb0uDeynRp0Sq-Ufxm05oCTMH_TfCcFCcmpG_7HhG4N_rKQcrooGHOE3xWv4MOq2ApVQz5mYxTXAgi2N_A')"></div>
+<div class="bg-slide blur-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpkGnHMrgoqYI0Gcau8hry5qpatK-v48ak5P2qbFvthw9SCnO3X_NRdCaG3vregCPvhH4iR8zonbdXfMe_14yzi7wejjmNAYEjvJcOhOw3LwV3YOdg8PD-P7oJ-a2U3QfqlERXIjJSUGkbIJyaOEoYDzaJGBC5VnFsZicZw33IXT9XCqKX7y4FNN83bN86mmnz-1uk_SUQfoYq5Ohrj1t7DAJKcXmO_JtFHDQ8KzwcYnggzwIEB_E7gQ')"></div>
+<div class="bg-slide blur-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8w6-GTR2OThrx4ozfbWbmIyc9c5-ghoqAy57rhdY9ftfzTMtXIpZuyuKXjRRMYS96HhxDkZD0aHAb-PxiW78vlYKcDOho6swVSkfHc3tM5ivlwI3UmeUIFZPlvkoAPRW9sYzqI24dbxBWEjX1jI-GVoUvsPRegKPKLRyqCYV4NYAfLtOIOFZfUH0vplDdM9ASOnvZ_W7Rz-JltCvgXcLJC7L8ZXcU_hnra5beZQ28POlzHI3XSeEWiQ')"></div>
+<div class="bg-slide blur-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNYQkGO4DTxRMQuSZJPhB3iuk4u2C94qqNnM8bQTDLmaW48_B8P9SVa2O8HYOT4oFn8_KJTzSEsDwGJM5lctRS34v8mVWJ_mcOSvdirahc7BDLh2O4_zwpZnVWoBsMwaph17CoDL0DmwWThPI1YTww655wFZh6xXf4arR4LrWJbA4fj3jUIpZeU8dihnhplFCXX_BBQvaZb1Hy5PKSEmHv-3a0k2SdSdg8_zGZMqsweY1jv1WgcIb6aA')"></div>
+</div>
+<!-- AI Glow Orbs -->
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-[#6366F1] blur-[120px] ai-glow" style="opacity: 0.05;"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[800px] h-[800px] rounded-full bg-[#3131c0] blur-[150px] ai-glow" style="opacity: 0.03; animation-delay: -4s;"></div>
+</div>
+<!-- TopNavBar Component -->
+<nav class="fixed top-0 w-full bg-gradient-to-b from-background/80 to-transparent backdrop-blur-md flex justify-between items-center px-margin-mobile md:px-margin-desktop py-8 z-50 transition-all duration-300">
+<div class="font-label-caps text-label-caps tracking-[0.2em] text-on-surface uppercase">
+            VANTA
+        </div>
+<div class="flex items-center gap-gutter">
+<!-- Navigation items suppressed per rule: Intent is linear/search focused landing -->
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 opacity-80 hover:opacity-100 hover:scale-95 transition-all">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative z-10 centered-layout pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto min-h-screen flex flex-col items-center" id="main-container">
+<!-- Search Section -->
+<div class="w-full max-w-3xl flex flex-col items-center text-center mb-[120px] opacity-0 translate-y-8" id="main-content-search" style="transition: all 1s ease-out 0s;">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 font-light tracking-wide">What are you looking for?</h2>
+<div class="relative w-full glass-search rounded-full flex items-center px-6 py-4">
+<span class="material-symbols-outlined text-on-surface-variant mr-4">search</span>
+<input class="w-full bg-transparent border-none text-on-surface font-body-md text-body-md focus:ring-0 placeholder-on-surface-variant/50 outline-none" id="main-search-input" placeholder="Describe a mood, a scene, or a feeling..." type="text"/>
+<button class="ml-4 px-6 py-2 rounded-full border border-on-surface text-on-surface font-label-caps text-label-caps uppercase hover:bg-on-surface hover:text-background transition-colors duration-300 interactive" id="discover-btn">
+                    Discover
+                </button>
+</div>
+<!-- AI Tag Chips -->
+<div class="flex flex-wrap justify-center gap-3 mt-8">
+<span class="px-4 py-2 rounded-full bg-[#1A1A1A] font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border border-white/5 cursor-pointer hover:border-white/20 transition-colors duration-300 interactive">Neon Noir</span>
+<span class="px-4 py-2 rounded-full bg-[#1A1A1A] font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border border-white/5 cursor-pointer hover:border-white/20 transition-colors duration-300 interactive">Quiet Contemplation</span>
+<span class="px-4 py-2 rounded-full bg-[#1A1A1A] font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider border border-white/5 cursor-pointer hover:border-white/20 transition-colors duration-300 interactive">Visually Stunning</span>
+</div>
+</div>
+<!-- Curated Grid Section -->
+<div class="w-full opacity-0 translate-y-8 hidden" id="main-content-grid" style="transition: all 1s ease-out 0s;">
+<div class="flex justify-between items-end mb-8 border-b border-white/5 pb-4">
+<h3 class="font-title-sm text-title-sm text-on-surface">Curated for the atmosphere</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-2 cursor-pointer hover:text-primary transition-colors interactive">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</span>
+</div>
+<!-- Asymmetric Bento-style Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter auto-rows-[300px]">
+<!-- Featured Large Card -->
+<div class="md:col-span-8 row-span-2 movie-card-container group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center movie-image" data-alt="A striking cinematic still of a lone figure standing in a vast, empty concrete brutalist structure. A single, intense shaft of cool white light cuts through the darkness, illuminating the subject. Deep shadows, high contrast, minimalist composition. The mood is isolating and profound, shot on high-end 70mm film stock." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNYQkGO4DTxRMQuSZJPhB3iuk4u2C94qqNnM8bQTDLmaW48_B8P9SVa2O8HYOT4oFn8_KJTzSEsDwGJM5lctRS34v8mVWJ_mcOSvdirahc7BDLh2O4_zwpZnVWoBsMwaph17CoDL0DmwWThPI1YTww655wFZh6xXf4arR4LrWJbA4fj3jUIpZeU8dihnhplFCXX_BBQvaZb1Hy5PKSEmHv-3a0k2SdSdg8_zGZMqsweY1jv1WgcIb6aA')"></div>
+<div class="absolute inset-0 movie-overlay flex flex-col justify-end p-8">
+<div class="flex items-center gap-3 mb-2">
+<span class="px-2 py-1 rounded bg-white/10 backdrop-blur-md font-label-caps text-[10px] text-on-surface uppercase border border-white/20">Masterpiece</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">98% Match</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">The Architecture of Silence</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-lg line-clamp-2">A meditative exploration of space and isolation in the modern era, directed with unwavering precision.</p>
+</div>
+</div>
+<!-- Secondary Cards -->
+<div class="md:col-span-4 row-span-1 movie-card-container group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center movie-image" data-alt="A close-up cinematic shot of an eye reflecting a neon-drenched city street. The lighting is dominated by saturated magentas and deep cyan shadows. Rain drops are visible on a glass pane in the extreme foreground, slightly out of focus. Moody, intense, and hyper-stylized cyberpunk aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8w6-GTR2OThrx4ozfbWbmIyc9c5-ghoqAy57rhdY9ftfzTMtXIpZuyuKXjRRMYS96HhxDkZD0aHAb-PxiW78vlYKcDOho6swVSkfHc3tM5ivlwI3UmeUIFZPlvkoAPRW9sYzqI24dbxBWEjX1jI-GVoUvsPRegKPKLRyqCYV4NYAfLtOIOFZfUH0vplDdM9ASOnvZ_W7Rz-JltCvgXcLJC7L8ZXcU_hnra5beZQ28POlzHI3XSeEWiQ')"></div>
+<div class="absolute inset-0 movie-overlay flex flex-col justify-end p-6">
+<h4 class="font-title-sm text-title-sm text-on-surface font-bold">Neon Tears</h4>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-1">Sci-Fi Noir</span>
+</div>
+</div>
+<div class="md:col-span-4 row-span-1 movie-card-container group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center movie-image" data-alt="A sweeping wide shot of a desolate, rocky alien landscape under a massive, looming gas giant planet in the sky. The color palette is restricted to muted earth tones and deep blacks. The lighting is harsh and directional, creating long, dramatic shadows. Minimalist, awe-inspiring, and slightly terrifying." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpkGnHMrgoqYI0Gcau8hry5qpatK-v48ak5P2qbFvthw9SCnO3X_NRdCaG3vregCPvhH4iR8zonbdXfMe_14yzi7wejjmNAYEjvJcOhOw3LwV3YOdg8PD-P7oJ-a2U3QfqlERXIjJSUGkbIJyaOEoYDzaJGBC5VnFsZicZw33IXT9XCqKX7y4FNN83bN86mmnz-1uk_SUQfoYq5Ohrj1t7DAJKcXmO_JtFHDQ8KzwcYnggzwIEB_E7gQ')"></div>
+<div class="absolute inset-0 movie-overlay flex flex-col justify-end p-6">
+<h4 class="font-title-sm text-title-sm text-on-surface font-bold">Void Walker</h4>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase mt-1">Atmospheric Thriller</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Entrance Animation Sequence
+            const entranceScreen = document.getElementById('entrance-screen');
+            const entranceContent = document.getElementById('entrance-content');
+            const letters = [
+                document.getElementById('v-l1'),
+                document.getElementById('v-l2'),
+                document.getElementById('v-l3'),
+                document.getElementById('v-l4'),
+                document.getElementById('v-l5')
+            ];
+            const tagline = document.getElementById('entrance-tagline');
+            const mainSearch = document.getElementById('main-content-search');
+
+            // Sequential reveal of letters
+            letters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                    letter.style.opacity = '1';
+                }, 400 + (index * 300));
+            });
+
+            // Reveal tagline
+            setTimeout(() => {
+                tagline.style.opacity = '1';
+                tagline.style.transform = 'translateY(0)';
+            }, 2300);
+
+            // Cinematic Zoom Surge
+            setTimeout(() => {
+                entranceContent.style.transition = 'transform 1.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease-in-out';
+                entranceContent.style.transform = 'scale(30)';
+                entranceContent.style.opacity = '0';
+            }, 3500);
+
+            // Fade out entrance screen and reveal main content
+            setTimeout(() => {
+                entranceScreen.style.opacity = '0';
+                setTimeout(() => {
+                    entranceScreen.style.display = 'none';
+                }, 1500);
+                
+                mainSearch.style.opacity = '1';
+                mainSearch.style.transform = 'translateY(0)';
+            }, 3800);
+
+            // Background Slideshow
+            const slides = document.querySelectorAll('.bg-slide');
+            let currentSlide = 0;
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 10000);
+
+            // Layout Animation (Simulating results loading)
+            const searchInput = document.getElementById('main-search-input');
+            const discoverBtn = document.getElementById('discover-btn');
+            const mainContainer = document.getElementById('main-container');
+            const mainGrid = document.getElementById('main-content-grid');
+
+            const showResults = () => {
+                mainContainer.classList.remove('centered-layout');
+                mainContainer.classList.add('pt-[204px]'); // Match original padding
+                
+                setTimeout(() => {
+                    mainGrid.classList.remove('hidden');
+                    // Force reflow
+                    void mainGrid.offsetWidth;
+                    mainGrid.style.opacity = '1';
+                    mainGrid.style.transform = 'translateY(0)';
+                }, 500);
+            };
+
+            discoverBtn.addEventListener('click', showResults);
+            searchInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') showResults();
+            });
+        });
+    </script>
+</body></html>
