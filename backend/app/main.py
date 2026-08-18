@@ -17,11 +17,21 @@ app = FastAPI(title="VANTA API")
 # development, separately from this API process.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],
+    allow_origins=["*"],
     allow_credentials=False,
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    """Return welcome message for API root."""
+    return {
+        "name": "VANTA AI Recommendation API",
+        "status": "online",
+        "docs": "/docs"
+    }
 
 
 @app.get("/health")
