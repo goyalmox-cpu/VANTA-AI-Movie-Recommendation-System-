@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:8000'
+    : '';
+
   fetchMovieDetails(movieTitle);
 
   async function fetchMovieDetails(title) {
@@ -40,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     detailsContent.classList.add('hidden');
 
     try {
-      const response = await fetch(`http://localhost:8000/movie/details?title=${encodeURIComponent(title)}`);
+      const response = await fetch(`${API_BASE}/movie/details?title=${encodeURIComponent(title)}`);
       const payload = await response.json();
 
       if (!response.ok || !payload.found) {
@@ -52,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loadingState.classList.add('hidden');
       errorState.classList.remove('hidden');
       errorMessage.textContent = err.message.includes('Failed to fetch')
-        ? 'Could not connect to backend API. Ensure http://localhost:8000 is running.'
+        ? 'Could not connect to backend API.'
         : err.message;
     }
   }
