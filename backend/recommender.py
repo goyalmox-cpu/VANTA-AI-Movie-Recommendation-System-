@@ -28,7 +28,7 @@ def _load_semantic_embeddings() -> np.ndarray:
     
     if gz1.exists() and gz2.exists():
         with gzip.open(gz1, "rb") as f1, gzip.open(gz2, "rb") as f2:
-            return np.vstack([np.load(f1), np.load(f2)])
+            return np.vstack([np.load(f1), np.load(f2)]).astype(np.float32)
     elif p1.exists() and p2.exists():
         return np.vstack([np.load(p1), np.load(p2)])
     elif full_p.exists():
